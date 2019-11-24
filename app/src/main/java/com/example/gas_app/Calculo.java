@@ -40,22 +40,19 @@ public class Calculo extends AppCompatActivity {
         edtData.setEnabled(false);
         edtComparacao.setEnabled(false);
 
-        //capturando o caminho que foi utilizado para abrir a tela
         Intent caminhoTela = getIntent();
         if (caminhoTela != null) {
-            //capturando os parametros enviados para esta tela
+
             Bundle parans = caminhoTela.getExtras();
 
-            //verifica se existem parametros enviados
             if (parans != null) {
-                //populando os campos da tela com os recebidos da principal
+
                 edtId.setText(parans.getString("id"));
                 edtGasolina.setText(parans.getString("gasolina"));
                 edtEtanol.setText(parans.getString("etanol"));
                 edtComparacao.setText(parans.getString("comparacao"));
                 edtData.setText(parans.getString("data"));
 
-                //desabilitando o RA, pois é nossa chave no banco
                 edtGasolina.setEnabled(false);
                 edtEtanol.setEnabled(false);
                 btnSalvar.setEnabled(false);
@@ -65,8 +62,6 @@ public class Calculo extends AppCompatActivity {
         btnVoltar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //ao cancelar, chama o evento de voltar do
-                //  do android para fechar a tela
                 onBackPressed();
             }
         });
@@ -86,7 +81,6 @@ public class Calculo extends AppCompatActivity {
                 String retorno = "";
                 Float resultado;
 
-                //validando o Nome, RA e Cidade, para nao salvar vazio
                 if (edtGasolina.getText().toString().isEmpty()) {
                     mostrarMensagem( "Hackaton", "O campo Gasolina é obrigatório!");
                     return;
@@ -127,7 +121,6 @@ public class Calculo extends AppCompatActivity {
                     TbHistorico tabela = new TbHistorico(
                             Calculo.this);
 
-                    //salvado os dados do aluno
                     tabela.salvar(
                             edtData.getText().toString(),
                             edtGasolina.getText().toString(),
@@ -135,7 +128,6 @@ public class Calculo extends AppCompatActivity {
                             edtComparacao.getText().toString()
                     );
 
-                    //fechando a tela ao salvar
                     onBackPressed();
                 }
                 catch (Exception e) { }
@@ -146,7 +138,7 @@ public class Calculo extends AppCompatActivity {
         btnExcluir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //criando a mensagem de alerta
+
                 AlertDialog.Builder alerta =
                         new AlertDialog.Builder(Calculo.this);
 
@@ -171,15 +163,12 @@ public class Calculo extends AppCompatActivity {
 
                         TbHistorico tabela = new TbHistorico(Calculo.this);
 
-                        //excluindo o aluno do banco de dados pelo RA
                         tabela.excluir(edtId.getText().toString());
 
-                        //fechando a tela ao excluir
                         onBackPressed();
                     }
                 });
 
-                //exibindo a mensagem na tela
                 alerta.show();
             }
         });
@@ -187,19 +176,15 @@ public class Calculo extends AppCompatActivity {
     }
 
     private void mostrarMensagem(String titulo, String mensagem) {
-        //criando a classe da mensagem de alerta
+
         AlertDialog.Builder alerta = new AlertDialog.Builder(this);
 
-        //adicionando um titulo para a mensagem
         alerta.setTitle(titulo);
 
-        //adicionando o texto recebido pelo metodo na mensagem/alerta
         alerta.setMessage(mensagem);
 
-        //adicionando um botao de OK para fechar a mensagem
         alerta.setNeutralButton("OK", null);
 
-        //exibindo a mensagem criada na tela
         alerta.show();
     }
 
